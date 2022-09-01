@@ -1,0 +1,446 @@
+
+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
+
+
+
+PreRequestie Install visual studio code https://code.visualstudio.com/
+
+DEVOPS
+
+GITHUB Account setup Overview - Private/Public GIT Credentials - PAT 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
+GIT-SCM GIT commands
+GIT Authentication
+JAVA Installation
+
+MAVEN Installation maven commands JUNIT Test
+
+TOMCAT Installation deploy war/configuration
+
+CI/CD - JENKINS Installation Plugins configuration
+
+ JOBS
+     freestyle
+     understand concepts
+     scripting 
+AWS - UBUNTU create a machine installation files linux commands
+
+DOCKER - UBUNTU Installation docker commands
+
+TERRAFORM - UBUNTU (AWS)
+
+KUBERNETES
+_________________________________________________________________________________________________________
+
+
+
+
+
+LinuxCommands.md
+
+touch
+
+rm
+
+pwd - present working directory
+
+cd ..
+
+cd directoryname
+
+ls list
+
+ls -a
+
+cp
+
+mv
+
+Basics of VI editor
+
+i - used to insert mode
+
+Esc - exit insert mode
+
+:wq - write and quit
+
+:q! - quit without saving
+
+______________________________________________________________________________________________________
+GITHUB ACCOUNT
+
+URL: https://github.com/
+
+
+
+Installation:
+
+https://phoenixnap.com/kb/how-to-install-git-windows
+
+Basic commands
+git clone Clone entire repository to local Example: https://github.com/ghanitutorsbot/GitLesson1.git
+
+git add Use to add the files
+
+    git add file1
+    git add file1 file2
+    git add .
+git commit
+
+    git commit -m singleword
+    git commit -m "double word"
+git push
+
+    push the latest commit to remote from local
+git pull
+
+    get the latest commit from remote to local
+    git pull origin master - to pull master file
+git init Initialize the
+
+git remote git remote git remote get-url origin git remote add origin https://github.com/ghanitutorsbot/DEVOPS_NOTES.git
+
+git push git push --set-upstream origin master
+
+Advanced Commands
+git branch
+
+    git branch branchname       - To create new branch
+    git checkout branchname     - to checkout to the branch name given
+git checkout git checkout branchname
+
+git merge go to the destination branch first using command git checkout
+
+    git merge sourcebranchname destinationbranchname
+git rebase we dont want to the destination branch
+
+    git rebase sourcebranchname destinationbranchname
+git revert
+
+git reset git reset --soft commitid git reset --hard commitid
+
+#Extra commands
+
+git status git --help git --version git log Display the commit history git diff commitid1 commitid2
+_________________________________________________________________________________________________________________
+
+Download java jdk8
+
+https://phoenixnap.com/kb/install-java-windows
+
+Install both jdk and jre in default location
+__________________________________________________________________________________________________________________
+
+Prerequestie - Need Java
+
+Site to downlaod: https://maven.apache.org/
+
+https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.zip
+
+Installation: create maven folder in programfiles Open zip file and paste all the contents in to "programfiles\maven" folder Add path setup
+
+Usage: In project download libraries automatically Plugins will be used In project maven need pom.xml file to execute
+
+Java code converted to machine code.
+
+Output either as a zip/jar/war/
+
+Sample code to download: https://github.com/ghanitutorsbot/maven_demo.git
+
+Verify Maven installation
+
+mvn --version
+
+Maven commands: initialize validate compile test package verify install deploy
+
+Maven Lifecycle
+
+The default Maven lifecycle consists of 8 major steps or phases for compiling, testing, building and installing a given Java project as specified below:
+
+Validate: This step validates if the project structure is correct. For example – It checks if all the dependencies have been downloaded and are available in the local repository.
+
+Compile: It compiles the source code, converts the .java files to .class and stores the classes in target/classes folder.
+
+Test: It runs unit tests for the project.
+
+Package: This step packages the compiled code in distributable format like JAR or WAR.
+
+Integration test: It runs the integration tests for the project.
+
+Verify: This step runs checks to verify that the project is valid and meets the quality standards.
+
+Install: This step installs the packaged code to the local Maven repository.
+
+Deploy: It copies the packaged code to the remote repository for sharing it with other developers.
+_________________________________________________________________________________________________________________
+
+APACHE TOMCAT
+
+Webserver
+
+WAR File - Deploy
+Sessions - Multiple
+_________________________________________________________________________________________________________________
+
+Installation
+
+https://phoenixnap.com/kb/install-jenkins-on-windows
+
+Manage Jenkins Manage plugins GIT plugin github plugin pipeline plugin deploy to container plugin
+
+    Global tool Configuration
+        Java
+            uncheck install automatically
+            java_home path before bin
+            Name - Anyname
+        Maven
+            give maven path before bin
+            Name - anyname
+        Git
+            give full path upto git.exe
+            name - anyname
+Jobs - Freestyle NewItem Itemname and select freestyle
+
+    Source code management
+        GIT 
+            URL
+            credentials
+            branch
+
+    Build Triggers
+            Build Periodically
+                Cron jobs
+                    Star meaning - MINUTE HOUR DOM MONTH DOW
+                    Run every minute        -   * * * * *
+                    Run every 30 minutes    -   30 * * * *
+                                        * 10 * * *
+                                        * 10 20 * *
+                                        * 10 20 4 *
+                                        * 10 * * 1
+                     Timezone               -   TZ=Europe/London
+            
+            Poll SCM - work only code will be updated
+                cron jobs
+                    
+    Build
+        Invoke top level maven targets
+            Maven version - Select
+            Goals "verify"
+
+    Post Build Actions
+
+
+        Containers
+            war/ear path - **/*.war
+            contextpath - Name it need to deploy
+            Add container - Select Tomcat 9.X
+            credentials - ADD - Jenkins - username and password - Add it
+                                                Select the credentials
+            url - tomcat url - http://localhost:8081/
+
+    SAVE the job
+    Buildnow
+    Check the logs in console output
+Declarative Pipeline
+
+pipeline { agent any
+
+stages {
+    stage('code') {
+        steps {
+            git credentialsId: '4f2c41b1-86df-43ac-8c49-a5df0f41a82a', url: 'https://github.com/ghanitutorsbot/maven_demo.git'
+        }
+    }
+    stage('build') {
+        steps {
+            bat 'mvn verify'
+        }
+    }
+
+    stage('Deploy') {
+        steps {
+            deploy adapters: [tomcat9(credentialsId: '752d6505-a033-4979-869c-5ec7d1312eb3', path: '', url: 'http://localhost:8081/')], contextPath: 'declarativewar', war: '**/*.war'
+        }
+    }
+}
+}
+
+Scripted Pipeline
+
+node {
+
+stage("code")
+{
+  git credentialsId: '4f2c41b1-86df-43ac-8c49-a5df0f41a82a', url: 'https://github.com/ghanitutorsbot/maven_demo.git'  
+  
+}
+stage ('build')
+{
+    bat 'mvn verify'
+}
+
+
+
+stage("Deploy")
+{
+deploy adapters: [tomcat9(credentialsId: '752d6505-a033-4979-869c-5ec7d1312eb3', path: '', url: 'http://localhost:8081/')], contextPath: 'scriptedwar', war: '**/*.war'
+
+    
+}
+}
+
+pipeline { agent any
+
+stages {
+    stage ('code') {
+        steps {
+            
+        }
+    }
+    stage ('Build') {
+            steps {
+            
+        }
+        
+    }
+    stage ('Deploy'){
+            steps {
+            
+        }
+        
+    }
+}
+}
+
+node {
+
+stage ("code")
+{
+
+}
+stage ("build")
+{
+
+}
+stage ("Deploy"){
+
+}
+}
+
+_________________________________________________________________________________________________________________
+7_aws.md
+
+Account creation
+
+IAM usdr
+
+Programattic Access
+AWS CLI Installation - aws configure Configure
+
+aws cli ec2
+
+aws ec2 run-instances --image-id ami-052efd3df9dad4825 --count 1 --instance-type t2.micro
+__________________________________________________________________________________________________________________
+
+Dockerhub Account create an account - https://hub.docker.com/ Dockerhub account
+
+docker setup in local machine
+
+docker commands (CLI)
+
+docker images - dockerhub
+Pull the docker images to your local - docker pull
+verify the docker images
+Create a container from the image
+Do necessary changes to the container and build as a docker image
+Push the latest docker images to the registry
+Docker cli commands
+
+Commands: attach Attach local standard input, output, and error streams to a running container build Build an image from a Dockerfile commit Create a new image from a container's changes exec Run a command in a running container
+
+history Show the history of an image images List images
+
+info Display system-wide information inspect Return low-level information on Docker objects kill Kill one or more running containers
+
+login Log in to a Docker registry logout Log out from a Docker registry logs Fetch the logs of a container
+
+port List port mappings or a specific mapping for the container ps List containers pull Pull an image or a repository from a registry push Push an image or a repository to a registry rename Rename a container restart Restart one or more containers rm Remove one or more containers rmi Remove one or more images run Run a command in a new container
+
+start Start one or more stopped containers
+
+stop Stop one or more running containers tag Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+_________________________________________________________________________________________________________________
+
+10_Automation_terraform_aws
+
+MAIN TF:
+
+
+resource "aws_instance" "app_server" {
+  ami           = "ami-0022f774911c1d690"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "ExampleAppServerInstance"
+  }
+}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = "my-tf-test-bucket1232133434"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}
+____________________________________________________________
+PROVIDERS TF:
+
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.13.0"
+    }
+  }
+}
+
+provider "aws" {
+  profile = "default"
+  region  = "us-east-1"
+}
+____________________________________________________________
+TERRAFORM.MD
+
+Infrastructure Problems
+
+Multiple environments setup/ time consuming more
+Issues - different env
+Scale up/down
+Advantages:
+
+Visibility Scalability Stability Security Audit
+
+Step1: Creation of IAM account
+
+AKIAZSOEMPUZY55LXA6H it1jSeigWQgvgttwm1p5Je+LUkJVjH4Vv7ssSPO+
+
+Step 2:
+
+Installation of Terraform Download - Extract zip Added to the environment variables
+
+Step 3: Installation of Visual studio code Added Extensions of Terraform
+
+Step 4: Download and install aws cli Download AWS CLI Tool - https://aws.amazon.com/cli/
+
+Step 5: Configure AWS CLI
+
+aws configure Pass - Accesskeys, secret key, region and output format
+
+For example Region - us-east-1 , output format - json
+
+terraform init
+terraform validate
+terraform plan
+terraform apply
+terraform destroy
+____________________________________________________________________________________________________
