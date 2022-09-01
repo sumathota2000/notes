@@ -77,7 +77,16 @@ Installation:
 https://phoenixnap.com/kb/how-to-install-git-windows
 
 Basic commands
+
+create any folder \ open\open git bash here\git clone your respository\ new folder gets created with .git,open\ open git bash here\ 
+git add notepad or file name
+git commit -m anymsgs
+git push( to see in the remote)
+git pull to download fro remote to local.
+
 git clone Clone entire repository to local Example: https://github.com/ghanitutorsbot/GitLesson1.git
+
+
 
 git add Use to add the files
 
